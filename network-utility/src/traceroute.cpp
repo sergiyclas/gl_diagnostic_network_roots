@@ -17,7 +17,7 @@ void Traceroute::start() {
     for (int ttl = 1; ttl <= maxHops; ++ttl) {
         HopInfo hop = handleHop(ttl);
         hops.push_back(hop);
-        if (hop.address == destination) {
+        if (hop.ipAddress == destination) {
             break;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
@@ -28,26 +28,38 @@ HopInfo Traceroute::handleHop(int ttl) {
     int sock = createRawSocket();
     if (sock < 0) {
         std::cerr << "Failed to create socket" << std::endl;
-        return {};
+        return HopInfo(ttl, "", "", 0.0);
     }
 
     setsockopt(sock, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
 
+    char packet[64] = {0}; // Example packet
+    struct sockaddr_in dest_addr;
+    memset(&dest_addr, 0, sizeof(dest_addr));
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_addr.s_addr = inet_addr(destination.c_str());
+
     auto start = std::chrono::high_resolution_clock::now();
-    sendPacket(sock, destination);
-    HopInfo hop = receivePacket(sock);
+    sendPacket(sock, destination, packet, sizeof(packet));
+    char buffer[1024];
+    struct sockaddr_in src_addr;
+    socklen_t addr_len = sizeof(src_addr);
+    ssize_t received_bytes = receivePacket(sock, buffer, sizeof(buffer), &src_addr);
     auto end = std::chrono::high_resolution_clock::now();
 
     close(sock);
 
-    hop.rtt = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    return hop;
+    double rtt = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::string ipAddress = inet_ntoa(src_addr.sin_addr);
+    std::string hostname = resolveHostname(ipAddress);
+
+    return HopInfo(ttl, ipAddress, hostname, rtt);
 }
 
 void Traceroute::printResults() const {
     std::cout << "Traceroute to " << destination << ":\n";
     for (const auto& hop : hops) {
-        std::cout << hop.ttl << " " << hop.address << " " << hop.rtt << " ms\n";
+        std::cout << hop.hopNumber << " " << hop.ipAddress << " " << hop.rtt << " ms\n";
     }
 }
 
