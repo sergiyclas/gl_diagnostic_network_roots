@@ -1,5 +1,0 @@
-C:/My_deals/Linux/GL/diagnostic_network_manager/gl_diagnostic_network_roots/network-utility/build/CMakeFiles/network-utility.dir
-C:/My_deals/Linux/GL/diagnostic_network_manager/gl_diagnostic_network_roots/network-utility/build/CMakeFiles/test_network_utility.dir
-C:/My_deals/Linux/GL/diagnostic_network_manager/gl_diagnostic_network_roots/network-utility/build/CMakeFiles/RUN_TESTS.dir
-C:/My_deals/Linux/GL/diagnostic_network_manager/gl_diagnostic_network_roots/network-utility/build/CMakeFiles/ALL_BUILD.dir
-C:/My_deals/Linux/GL/diagnostic_network_manager/gl_diagnostic_network_roots/network-utility/build/CMakeFiles/ZERO_CHECK.dir

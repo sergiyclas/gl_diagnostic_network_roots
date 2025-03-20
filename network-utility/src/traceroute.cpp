@@ -22,7 +22,6 @@ void Traceroute::start() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
     }
-    printResults();
 }
 
 HopInfo Traceroute::handleHop(int ttl) {
@@ -45,7 +44,7 @@ HopInfo Traceroute::handleHop(int ttl) {
     return hop;
 }
 
-void Traceroute::printResults() {
+void Traceroute::printResults() const {
     std::cout << "Traceroute to " << destination << ":\n";
     for (const auto& hop : hops) {
         std::cout << hop.ttl << " " << hop.address << " " << hop.rtt << " ms\n";

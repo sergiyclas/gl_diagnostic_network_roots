@@ -7,19 +7,18 @@
 
 class Traceroute {
 public:
-    Traceroute(const std::string& hostname);
+    Traceroute(const std::string& destination, int maxHops = 30, int timeout = 5);
     void start();
-    void resolveHostname();
+    std::string resolveHostname(const std::string& hostname);
     void printResults() const;
 
 private:
-    std::string hostname;
+    std::string destination;
+    int maxHops;
+    int timeout;
     std::vector<HopInfo> hops;
-    static const int MAX_HOPS = 30;
-    static const int TIMEOUT = 5; // in seconds
 
-    void handleHop(int ttl);
-    double measureRTT(int hopIndex);
+    HopInfo handleHop(int ttl);
 };
 
 #endif // TRACEROUTE_H
