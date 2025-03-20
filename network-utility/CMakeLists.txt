@@ -8,7 +8,13 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Include directories
-include_directories(include src/types src/utils)
+include_directories(
+    include
+    src
+    src/types
+    src/utils
+    ${GTEST_INCLUDE_DIRS}
+)
 
 # Add executable
 add_executable(network-utility
@@ -29,7 +35,6 @@ add_executable(test_network_utility
 
 # Link Google Test library
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
 target_link_libraries(test_network_utility ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
 
 # Add tests to CTest
