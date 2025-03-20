@@ -1,39 +1,32 @@
-#include <gtest/gtest.h>
-#include "../src/traceroute.h"
+#include "gtest/gtest.h"
+#include "traceroute.h"
+#include <sstream>
 
 class TracerouteTest : public ::testing::Test {
 protected:
+    TracerouteTest() : traceroute("example.com") {}
     Traceroute traceroute;
-
-    void SetUp() override {
-        // Initialize traceroute with default parameters if needed
-    }
-
-    void TearDown() override {
-        // Clean up resources if needed
-    }
 };
 
 TEST_F(TracerouteTest, TestResolveHostname) {
-    std::string hostname = "www.example.com";
-    std::string resolvedIP = traceroute.resolveHostname(hostname);
-    EXPECT_FALSE(resolvedIP.empty());
+    std::string ipAddress = traceroute.resolveHostname("example.com");
+    ASSERT_NE(ipAddress, "0.0.0.0");
 }
 
 TEST_F(TracerouteTest, TestStartWithValidDestination) {
-    std::string destination = "8.8.8.8"; // Google's public DNS
-    EXPECT_NO_THROW(traceroute.start(destination));
+    std::string destination = "example.com";
+    EXPECT_NO_THROW(traceroute.start());
 }
 
 TEST_F(TracerouteTest, TestStartWithInvalidDestination) {
-    std::string destination = "invalid.host";
-    EXPECT_THROW(traceroute.start(destination), std::runtime_error);
+    std::string destination = "invalid_destination";
+    EXPECT_THROW(traceroute.start(), std::runtime_error);
 }
 
 TEST_F(TracerouteTest, TestPrintResults) {
-    std::string destination = "8.8.8.8";
-    traceroute.start(destination);
+    std::string destination = "example.com";
+    traceroute.start();
     std::ostringstream output;
-    traceroute.printResults(output);
-    EXPECT_FALSE(output.str().empty());
+    traceroute.printResults();
+    ASSERT_FALSE(output.str().empty());
 }
