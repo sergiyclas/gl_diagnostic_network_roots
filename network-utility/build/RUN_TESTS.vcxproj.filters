@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\My_deals\Linux\GL\diagnostic_network_manager\gl_diagnostic_network_roots\network-utility\build\CMakeFiles\becb6fe823cc6ba23b97659939958be0\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4E8C07F3-C8A0-3737-A2A6-649576CFE5EC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

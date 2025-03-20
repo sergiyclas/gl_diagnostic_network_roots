@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\My_deals\Linux\GL\diagnostic_network_manager\gl_diagnostic_network_roots\network-utility\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\My_deals\Linux\GL\diagnostic_network_manager\gl_diagnostic_network_roots\network-utility\src\traceroute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\My_deals\Linux\GL\diagnostic_network_manager\gl_diagnostic_network_roots\network-utility\src\utils\network_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\My_deals\Linux\GL\diagnostic_network_manager\gl_diagnostic_network_roots\network-utility\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7EDB8169-B8B7-3499-A8AA-F921641D4807}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
