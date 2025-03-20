@@ -12,10 +12,7 @@ int main(int argc, char* argv[]) {
     Traceroute traceroute(argv[1]);
 
     // Start the traceroute
-    if (!traceroute.start()) {
-        std::cerr << "Traceroute failed." << std::endl;
-        return 1;
-    }
+    traceroute.start();
 
     // Print the results
     traceroute.printResults();
