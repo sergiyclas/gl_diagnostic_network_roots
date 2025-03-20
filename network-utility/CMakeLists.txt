@@ -1,23 +1,23 @@
 cmake_minimum_required(VERSION 3.10)
 
-# Назва проекту
+# Project name
 project(NetworkUtility)
 
-# Встановлення стандарту C++
+# Set C++ standard
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Додавання директорій з заголовковими файлами
+# Include directories
 include_directories(include src/types src/utils)
 
-# Додавання основного виконуваного файлу
+# Add executable
 add_executable(network-utility
     src/main.cpp
     src/traceroute.cpp
     src/utils/network_utils.cpp
 )
 
-# Додавання тестів
+# Add tests
 enable_testing()
 add_executable(test_network_utility
     tests/test_main.cpp
@@ -27,13 +27,10 @@ add_executable(test_network_utility
     src/utils/network_utils.cpp
 )
 
-# Підключення бібліотеки Google Test
-set(GTEST_INCLUDE_DIRS "C:/My_deals/Linux/GL/diagnostic_network_manager/googletest/googletest/include")
-set(GTEST_LIBRARIES "C:/My_deals/Linux/GL/diagnostic_network_manager/googletest/build/lib/Release/gtest.lib")
-set(GTEST_MAIN_LIBRARIES "C:/My_deals/Linux/GL/diagnostic_network_manager/googletest/build/lib/Release/gtest_main.lib")
-
+# Link Google Test library
+find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
-target_link_libraries(test_network_utility ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+target_link_libraries(test_network_utility ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
 
-# Додавання тестів до CTest
+# Add tests to CTest
 add_test(NAME NetworkUtilsTest COMMAND test_network_utility)
