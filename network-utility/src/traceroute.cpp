@@ -40,11 +40,11 @@ HopInfo Traceroute::handleHop(int ttl) {
     dest_addr.sin_addr.s_addr = inet_addr(destination.c_str());
 
     auto start = std::chrono::high_resolution_clock::now();
-    sendPacket(sock, destination, packet, sizeof(packet));
+    sendPacket(sock, dest_addr, packet, sizeof(packet));
     char buffer[1024];
     struct sockaddr_in src_addr;
     socklen_t addr_len = sizeof(src_addr);
-    ssize_t received_bytes = receivePacket(sock, buffer, sizeof(buffer), &src_addr);
+    ssize_t received_bytes = receivePacket(sock, buffer, sizeof(buffer));
     auto end = std::chrono::high_resolution_clock::now();
 
     close(sock);

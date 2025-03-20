@@ -10,7 +10,7 @@
 #include <stdexcept>
 
 int createRawSocket();
-ssize_t sendPacket(int socket, const std::string& destination, const void* packet, size_t packetSize);
-ssize_t receivePacket(int socket, void* buffer, size_t bufferSize, struct sockaddr_in* senderAddr);
+ssize_t sendPacket(int sockfd, const struct sockaddr_in &dest_addr, const char *packet, size_t packet_size);
+ssize_t receivePacket(int sockfd, char *buffer, size_t buffer_size);
 
 #endif // NETWORK_UTILS_H
