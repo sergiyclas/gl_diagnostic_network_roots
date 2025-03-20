@@ -8,11 +8,11 @@
 #include <iostream>
 
 int createRawSocket() {
-    int sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
-    if (sockfd < 0) {
-        throw std::runtime_error("Failed to create raw socket");
+    int sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+    if (sock < 0) {
+        std::cerr << "Failed to create raw socket" << std::endl;
     }
-    return sockfd;
+    return sock;
 }
 
 ssize_t sendPacket(int sockfd, const struct sockaddr_in &dest_addr, const char *packet, size_t packet_size) {
