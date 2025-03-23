@@ -13,9 +13,18 @@ This is a simple traceroute tool implemented in C. It allows you to trace the ro
 *   **Built-in FQDN resolution:** Resolves the provided FQDN to an IP address.
 *   **Reverse FQDN resolution:** Attempts to resolve IP addresses of intermediate nodes to FQDNs.
 
-## Compilation
+## Installation and Compilation
 
-To compile the program, use the provided `Makefile`.
+To download and compile the program:
+
+1.  Download the repository using git:
+
+```bash
+git clone https://github.com/sergiyclas/gl_diagnostic_network_roots
+cd gl_diagnostic_network_roots
+```
+
+2.  Compile the program using the provided `Makefile`:
 
 ```bash
 make
