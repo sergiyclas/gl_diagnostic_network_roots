@@ -12,13 +12,14 @@
 #include "networking.h"
 #include "fqdn.h"
 #include "construct_packet.h"
+#include <getopt.h> // Required for argument parsing
 
 #define DEST_IP_BUFF 100
 #define SRC_IP_BUFF 100
 #define ICMP_BUFF 40 // ICMP header size(8) + the payload(32)
 #define RCVD_MSG_BUFF 512
 #define FQDN_BUFF 512
-#define MAX_HOPS 30
+#define DEFAULT_MAX_HOPS 30
 #define PACKETS_PER_TTL 3
 
 int main(int argc, char* argv[])
@@ -28,7 +29,6 @@ int main(int argc, char* argv[])
         char packet[ICMP_BUFF]; // ICMP packet buffer(IPv4 payload)
         char rcvd_msg[RCVD_MSG_BUFF];
         char FQDN[FQDN_BUFF]; 
-        char* interface = (argc > 2) ? argv[2] : NULL; 
         struct sockaddr_in dest_IP; 
         struct sockaddr_in node_IP;
         struct timeval time_start;
@@ -41,18 +41,56 @@ int main(int argc, char* argv[])
         int first_reply = 1; // To print FQDN and IP address of an intermediate node just once
         int line_overflow = 0; // To keep track of how many packets per TTL value is sent
         long double rtt; // Round trip time
+        int max_hops = DEFAULT_MAX_HOPS; // Use default max hops if not specified
+        int timeout_sec = -1; // Timeout value, -1 indicates not set
+        char* interface = NULL;
 
-        if(argc > 3 || argc < 2)
-        {
-                fprintf(stderr, "Usage: %s <Destination FQDN> [interface]\n", argv[0]);
-                exit(1);
+        int opt;
+        while ((opt = getopt(argc, argv, "m:t:i:")) != -1) {
+            switch (opt) {
+                case 'm':
+                    max_hops = atoi(optarg);
+                    if (max_hops <= 0) {
+                        fprintf(stderr, "Invalid max hops value. Using default: %d\n", DEFAULT_MAX_HOPS);
+                        max_hops = DEFAULT_MAX_HOPS;
+                    }
+                    break;
+                case 't':
+                    timeout_sec = atoi(optarg);
+                    if (timeout_sec < 0) {
+                        fprintf(stderr, "Invalid timeout value. Must be non-negative.\n");
+                        exit(1);
+                    }
+                    break;
+                case 'i':
+                    interface = optarg;
+                    break;
+                case '?':
+                    fprintf(stderr, "Usage: %s [-m max_hops] [-t timeout_sec] [-i interface] <Destination FQDN>\n", argv[0]);
+                    exit(1);
+                default:
+                    fprintf(stderr, "Usage: %s [-m max_hops] [-t timeout_sec] [-i interface] <Destination FQDN>\n", argv[0]);
+                    exit(1);
+            }
         }
 
-	resolve_FQDN(argv[1], &dest_IP, dest_IP_str, sizeof(dest_IP_str));
-        printf("Destination ip: %s, %d hops max\n", dest_IP_str, MAX_HOPS);
+        if (optind >= argc) {
+            fprintf(stderr, "Error: Destination FQDN is required.\n");
+            fprintf(stderr, "Usage: %s [-m max_hops] [-t timeout_sec] [-i interface] <Destination FQDN>\n", argv[0]);
+            exit(1);
+        }
 
-        sock_fd = create_socket(&dest_IP);
-        while(ttl <= MAX_HOPS)
+	resolve_FQDN(argv[optind], &dest_IP, dest_IP_str, sizeof(dest_IP_str));
+        printf("Destination ip: %s, %d hops max\n", dest_IP_str, max_hops);
+
+        sock_fd = create_socket(&dest_IP, interface);
+
+        // Set timeout if provided
+        if (timeout_sec >= 0) {
+            set_socket_timeout(sock_fd, timeout_sec, 0);
+        }
+
+        while(ttl <= max_hops)
         {
                 printf("%d.\t Reply from ", ttl);
                 for(line_overflow = 0; line_overflow < PACKETS_PER_TTL; line_overflow++)

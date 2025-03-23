@@ -17,7 +17,7 @@ DEPS := $(wildcard $(INC_DIR)/*.h)
 ifeq ($(strip $(TOPDIR)),)
   # Ubuntu build
   CC := gcc
-  CFLAGS := -Wall -g -I$(INC_DIR)
+  CFLAGS := -Wall -g -I$(INC_DIR) -D_DEFAULT_SOURCE
   LDFLAGS :=
 else
   # OpenWRT build
