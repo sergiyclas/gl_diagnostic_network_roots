@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 
         while(ttl <= max_hops)
         {
-                printf("%d.\t Reply from ", ttl);
+                printf("\t%d. Reply from ", ttl);
                 for(line_overflow = 0; line_overflow < PACKETS_PER_TTL; line_overflow++)
                 {
                         construct_packet(sock_fd, packet, seq_number, ttl, interface);

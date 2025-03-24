@@ -11,7 +11,7 @@ builtin_output=$(traceroute -I -m $MAX_HOPS "$TARGET")
 echo "$builtin_output"
 
 echo "Running custom traceroute to $TARGET..."
-custom_output=$(./traceroute -m $MAX_HOPS -t $TIMEOUT "$TARGET")
+custom_output=$(./rooter -m $MAX_HOPS -t $TIMEOUT "$TARGET")
 echo "$custom_output"
 
 if echo "$builtin_output" | grep -q "$TARGET" && echo "$custom_output" | grep -q "$TARGET_IP"; then
