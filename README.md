@@ -67,7 +67,7 @@ make package/rooter/compile
 ## Usage
 
 ```bash
-./traceroute [-m max_hops] [-t timeout_sec] [-i interface] <Destination FQDN>
+sudo ./traceroute [-m max_hops] [-t timeout_sec] [-i interface] <Destination FQDN>
 ```
 
 *   `-m max_hops`: Specifies the maximum number of hops (default: 30).
@@ -78,7 +78,7 @@ make package/rooter/compile
 **Example:**
 
 ```bash
-./traceroute -m 20 -t 2 -i eth0 example.com
+sudo ./traceroute -m 20 -t 2 -i eth0 example.com
 ```
 
 This command will trace the route to `example.com`, with a maximum of 20 hops, a timeout of 2 seconds, using the `eth0` interface.
